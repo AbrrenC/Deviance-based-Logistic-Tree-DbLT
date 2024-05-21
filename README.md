@@ -7,14 +7,24 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Hybrid Modeling:** Combines logistic regression and decision trees for a comprehensive analytical tool.
 - **Deviance Criterion:** Utilizes deviance for continuous variables and chi-square tests for categorical variables, optimizing the selection process.
 - **Iterative Validation:** Validates each node through logistic regression, ensuring the reliability of the splits.
-- **Pruning Techniques:** Implements various pruning methods to prevent overfitting and enhance model simplicity and performance.
+- **Pruning Techniques:** Implements various pruning methods (AIC, BIC and EPV) to prevent overfitting and enhance model simplicity and performance.
 - **Simulated and Real-World Application:** Demonstrates predictive performance through extensive tests on both simulated data and actual medical datasets.
 
 ## This Repository Includes:
 
-- **Model Code:** The core DBLT model implemented in R.
-- **Simulation Study:** Scripts to generate simulated datasets and perform model evaluation.
-- **Usage Examples:** Practical examples demonstrating how to apply the DBLT model on different datasets.
-- **Documentation:** Detailed explanation of the methodology, parameter settings, and interpretation of outputs.
+- **Model Code:** The core DbLT model code, the pruning and prediction code. (R programming language)
+- **Simulation Study:** Scripts to generate simulated datasets.
+- **Example outputs:** Example ouptus show the tree plot and tree model summary of DbLT.
 
-Whether you're dealing with medical research data or exploring predictive analytics in other domains, the DbLT Model offers a fresh perspective with its fine balance of simplicity and sophistication. Dive into the repository to explore the code, understand the methodology, and start applying the DBLT model to your datasets!
+Whether you're dealing with medical research data or exploring predictive analytics in other domains, the DbLT Model offers a fresh perspective with its fine balance of simplicity and sophistication. Dive into the repository to explore the code, understand the methodology, and start applying the DbLT model to your datasets!
+
+**DbLT Tree Plot**
+
+<img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/4e9bc501-1de9-49ea-8411-9a07c2862b5b">
+
+**DbLT Tree Model Summary**
+
+<img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/6654ae11-9f0a-4367-973c-42507cd0af11">
+
+
+
