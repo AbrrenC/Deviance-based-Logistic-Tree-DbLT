@@ -1,12 +1,8 @@
+## This file contains all the main functions of algorithm DbLT (Deviance-based Logistic Tree).
 
-## This file stores all the functions which are used build up the logistic tree model
-## There are two main types of functions: categorical and numerical variables
-
-## Import necessary packages
+## Import packages for printing out tree outputs
 library(data.tree)
 library(DiagrammeR)
-
-## Section 1: Categorical variable
 
 ## Function 1: Select the best categorical variable as split variable
 cat_split_var <- function(data, response_var) {
@@ -94,9 +90,6 @@ cat_split_func <- function(data, response_var) {
   )
 }
 
-
-## Section 2: Numerical variable
-
 ## Function: Select the best numerical variable as split variable
 num_split_var <- function(data, response_var) {
   # Initialize variables
@@ -137,38 +130,7 @@ num_split_var <- function(data, response_var) {
   return(best_variable)
 }
 
-
-## Function: remove categorical or numeric variable when it only has one class
-# remove_constant_vars <- function(dataset, response_var) {
-#   response_var_index <- which(names(dataset) == response_var)
-#   other_vars_indices <- setdiff(1:ncol(dataset), response_var_index)
-#   constant_vars <- sapply(dataset[, other_vars_indices, drop = FALSE], function(x) {
-#     (is.factor(x) && length(unique(x)) == 1)
-#   })
-#   constant_vars_full <- rep(FALSE, ncol(dataset))
-#   constant_vars_full[other_vars_indices] <- constant_vars
-#   cleaned_dataset <- dataset[, !constant_vars_full, drop = FALSE]
-#   return(cleaned_dataset)
-# }
-remove_constant_vars <- function(dataset, response_var) {
-  response_var_index <- which(names(dataset) == response_var)
-  other_vars_indices <- setdiff(1:ncol(dataset), response_var_index)
-  constant_vars <- sapply(dataset[, other_vars_indices, drop = FALSE], function(x) {
-    if (is.factor(x)) {
-      # Check if there's only one level or if each level only has one case
-      length(unique(x)) == 1 || all(table(x) <= 1)
-    } else {
-      FALSE
-    }
-  })
-  constant_vars_full <- rep(FALSE, ncol(dataset))
-  constant_vars_full[other_vars_indices] <- constant_vars
-  cleaned_dataset <- dataset[, !constant_vars_full, drop = FALSE]
-  return(cleaned_dataset)
-}
-
-
-## Function: Select the best split point
+## Function: Select the best split point for numerical variables
 num_split_func <- function(data, response_var) {
   split_variable <- num_split_var(data, response_var)
 
@@ -182,7 +144,6 @@ num_split_func <- function(data, response_var) {
   rownames(sorted_dataset) <- NULL
 
   # Define quantiles to search
-  # quantiles <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)
   quantiles <- c(0.3, 0.4, 0.5, 0.6, 0.7)
 
   # Initialize variables to store results
@@ -238,6 +199,23 @@ num_split_func <- function(data, response_var) {
   )
 }
 
+## Function: remove categorical or numeric variable when it only has one class
+remove_constant_vars <- function(dataset, response_var) {
+  response_var_index <- which(names(dataset) == response_var)
+  other_vars_indices <- setdiff(1:ncol(dataset), response_var_index)
+  constant_vars <- sapply(dataset[, other_vars_indices, drop = FALSE], function(x) {
+    if (is.factor(x)) {
+      # Check if there's only one level or if each level only has one case
+      length(unique(x)) == 1 || all(table(x) <= 1)
+    } else {
+      FALSE
+    }
+  })
+  constant_vars_full <- rep(FALSE, ncol(dataset))
+  constant_vars_full[other_vars_indices] <- constant_vars
+  cleaned_dataset <- dataset[, !constant_vars_full, drop = FALSE]
+  return(cleaned_dataset)
+}
 
 ## Function: determine variable types
 determine_var_types <- function(data, response_var) {
@@ -269,9 +247,6 @@ determine_var_types <- function(data, response_var) {
               cat_var_list = cat_var_list)
         )
 }
-
-
-## Section 3: Split the dataset
 
 ## Function: split function to determine the split variable, split point and variable type
 split_node_func <- function(data, response_var, threshold) {
@@ -330,7 +305,6 @@ split_node_func <- function(data, response_var, threshold) {
   )
 }
 
-
 ## Function: Split the data into two subsets based on the split variable and split point
 split_subsets <- function(data, response_var, threshold) {
   # determine the split variable and split value
@@ -383,83 +357,6 @@ split_subsets <- function(data, response_var, threshold) {
         )
 }
 
-
-## Section 4: Build up tree structure
-
-## Function: Add child nodes
-add_child_nodes <- function(parent_node, child_results) {
-  if (is.null(child_results)) {
-    return()
-  }
-
-  left_child_data <- paste(paste("n =", child_results$Data_child_nodes["left_set"]),
-                           child_results$Left_child_node$Node_detail,
-                           paste(paste("y = 0:", child_results$response_distri[["left_0"]]), "|", paste("y = 1:", child_results$response_distri[["left_1"]])),
-                           sep = "\n")
-  right_child_data <- paste(paste("n =", child_results$Data_child_nodes["right_set"]),
-                            child_results$Right_child_node$Node_detail,
-                            paste(paste("y = 0:", child_results$response_distri[["right_0"]]), "|", paste("y = 1:", child_results$response_distri[["right_1"]])),
-                            sep = "\n")
-
-  # Add left child node and its children
-  left_child_node <- parent_node$AddChild(left_child_data)
-  if (!is.null(child_results$Left_child_node)) {
-    add_child_nodes(left_child_node, child_results$Left_child_node)
-  }
-
-  # Add right child node and its children
-  right_child_node <- parent_node$AddChild(right_child_data)
-  if (!is.null(child_results$Right_child_node)) {
-    add_child_nodes(right_child_node, child_results$Right_child_node)
-  }
-}
-
-## Function: Build up the tree structure
-create_tree_structure <- function(results) {
-  # Create the root node
-  tree <- Node$new(paste(paste("n =", sum(results$Data_child_nodes)),
-                         results$Node_detail,
-                         sep = "\n"))
-
-  # Create Initial child nodes
-  left_node_init <- tree$AddChild(paste(paste("n =", results$Data_child_nodes["left_set"]),
-                                        results$Left_child_node$Node_detail,
-                                        paste(paste("y = 0:", results$response_distri[["left_0"]]), "|", paste("y = 1:", results$response_distri[["left_1"]])),
-                                        sep = "\n"))
-  right_node_init <- tree$AddChild(paste(paste("n =",
-                                         results$Data_child_nodes["right_set"]),
-                                         results$Right_child_node$Node_detail,
-                                         paste(paste("y = 0:", results$response_distri[["right_0"]]), "|", paste("y = 1:", results$response_distri[["right_1"]])),
-                                         sep = "\n"))
-
-  # Add left child node and its children
-  add_child_nodes(left_node_init, results$Left_child_node)
-
-  # Add right child node and its children
-  add_child_nodes(right_node_init, results$Right_child_node)
-
-  return(tree)
-}
-
-## Function: Extract Decision rules from the tree results
-extract_data <- function(model_outputs) {
-  data <- list(
-    Node_detail = model_outputs$Node_detail,
-    response_distri = model_outputs$response_distri
-  )
-
-  if (!is.null(model_outputs$Left_child_node)) {
-    data$Left_child_node <- extract_data(model_outputs$Left_child_node)
-  }
-
-  if (!is.null(model_outputs$Right_child_node)) {
-    data$Right_child_node <- extract_data(model_outputs$Right_child_node)
-  }
-
-  return(data)
-}
-
-
 ## Function to check stopping criteria (pre-pruning criteria)
 check_base_cases <- function(data, response_var, min_sample, max_depth, current_depth, method) {
   if (length(unique(data[[response_var]])) == 1) {
@@ -481,7 +378,6 @@ check_base_cases <- function(data, response_var, min_sample, max_depth, current_
   return(FALSE)
 }
 
-
 ## Function to compute response distribution
 compute_response_distribution <- function(subset, response_var, method) {
   if (method == "class") {
@@ -495,10 +391,9 @@ compute_response_distribution <- function(subset, response_var, method) {
   }
 }
 
-
 ## Function to build up the tree for plot
 DbLTree_model <- function(data, response_var, min_sample = NULL, threshold, max_depth = NULL, current_depth = 0, method = "probability") {
-  # check depth limit
+  # check depth limit in case the tree is too large
   if (current_depth > 20) {
     return(NULL)
   }
@@ -528,6 +423,11 @@ DbLTree_model <- function(data, response_var, min_sample = NULL, threshold, max_
 
   # split the dataset
   subsets = split_subsets(data, response_var, threshold)
+
+  # extract the p-value for the split variable
+  summary_parent_glm = summary(parent_glm)
+  split_var = subsets$split_var
+  split_var_p_value = summary_parent_glm$coefficients[split_var, "Pr(>|z|)"]
 
   # construct split description
   split_desc <- if (is.factor(data[[subsets$split_var]])) {
@@ -568,6 +468,7 @@ DbLTree_model <- function(data, response_var, min_sample = NULL, threshold, max_
   # construct and return the tree structure
   tree <- list(
     Node_detail = split_desc,
+    p_value = split_var_p_value,
     parent_aic = parent_aic,
     parent_bic = parent_bic,
     parent_deviance_hat = parent_deviance_hat,
@@ -591,149 +492,105 @@ DbLTree_model <- function(data, response_var, min_sample = NULL, threshold, max_
   return(tree)
 }
 
+## Function: Add child nodes
+add_child_nodes <- function(parent_node, child_results) {
+  if (is.null(child_results)) {
+    return()
+  }
 
-## Function: Predict the new data point
-DbLT_predict_model_func <- function(node, data_point) {
-  # root node
-  decision_rule <- node$Node_detail
-  split_var <- strsplit(decision_rule, "\\s+")[[1]][2]
-  operator <- strsplit(decision_rule, "\\s+")[[1]][3]
-  threshold <- strsplit(decision_rule, "\\s+")[[1]][6] # convert it to number for comparison
+  left_child_data <- paste(paste("n =", child_results$Data_child_nodes["left_set"]),
+                           child_results$Left_child_node$Node_detail,
+                           round(as.numeric(child_results$Left_child_node$p_value), 6),
+                           paste(paste("y = 0:", child_results$response_distri[["left_0"]]), "|", paste("y = 1:", child_results$response_distri[["left_1"]])),
+                           sep = "\n")
+  right_child_data <- paste(paste("n =", child_results$Data_child_nodes["right_set"]),
+                            child_results$Right_child_node$Node_detail,
+                            round(as.numeric(child_results$Right_child_node$p_value), 6),
+                            paste(paste("y = 0:", child_results$response_distri[["right_0"]]), "|", paste("y = 1:", child_results$response_distri[["right_1"]])),
+                            sep = "\n")
 
-  # Extract feature value from data_point
-  new_data <- data_point[[split_var]]
+  # Add left child node and its children
+  left_child_node <- parent_node$AddChild(left_child_data)
+  if (!is.null(child_results$Left_child_node)) {
+    add_child_nodes(left_child_node, child_results$Left_child_node)
+  }
 
-  # Make decision based on the rule
-  if (operator == "split") {
-    # categorical variable split by class
-    if ((as.numeric(new_data) <= as.numeric(threshold)) & !is.null(node$Left_child_node)) {
-      DbLT_predict_model_func(node$Left_child_node, data_point) # repeat the function again
-    } else if ((as.numeric(new_data) <= as.numeric(threshold)) & is.null(node$Left_child_node)) {
-      left_prob_class_1 = as.numeric(calculate_predicted_probability(data_point, node$left_coefficients))
-      return(c(class_0 = 1-left_prob_class_1, class_1 = left_prob_class_1))
-    } else if ((as.numeric(new_data) > as.numeric(threshold)) & !is.null(node$Right_child_node)) {
-      DbLT_predict_model_func(node$Right_child_node, data_point) # repeat the function again
-    } else if ((as.numeric(new_data) > as.numeric(threshold)) & is.null(node$Right_child_node)) {
-      right_prob_class_1 = as.numeric(calculate_predicted_probability(data_point, node$right_coefficients))
-      return(c(class_0 = 1-right_prob_class_1, class_1 = right_prob_class_1))
-    } else {
-      return(c(class_0 = NA, class_1 = NA))
-    }
-
-  } else if (operator == "<=") {
-    if ((as.numeric(new_data) <= as.numeric(threshold)) & !is.null(node$Left_child_node)) {
-      DbLT_predict_model_func(node$Left_child_node, data_point) # repeat the function again
-    } else if ((as.numeric(new_data) <= as.numeric(threshold)) & is.null(node$Left_child_node)) {
-      left_prob_class_1 = as.numeric(calculate_predicted_probability(data_point, node$left_coefficients))
-      return(c(class_0 = 1-left_prob_class_1, class_1 = left_prob_class_1))
-    } else if ((as.numeric(new_data) > as.numeric(threshold)) & !is.null(node$Right_child_node)) {
-      DbLT_predict_model_func(node$Right_child_node, data_point) # repeat the function again
-    } else if ((as.numeric(new_data) > as.numeric(threshold)) & is.null(node$Right_child_node)) {
-      right_prob_class_1 = as.numeric(calculate_predicted_probability(data_point, node$right_coefficients))
-      return(c(class_0 = 1-right_prob_class_1, class_1 = right_prob_class_1))
-    } else {
-      return(c(class_0 = NA, class_1 = NA))
-    }
+  # Add right child node and its children
+  right_child_node <- parent_node$AddChild(right_child_data)
+  if (!is.null(child_results$Right_child_node)) {
+    add_child_nodes(right_child_node, child_results$Right_child_node)
   }
 }
 
+## Function: Build up the tree structure
+create_tree_structure <- function(results) {
+  # Create the root node
+  tree <- Node$new(paste(paste("n =", sum(results$Data_child_nodes)),
+                         results$Node_detail,
+                         round(as.numeric(results$p_value), 6),
+                         sep = "\n"))
 
-# Function:Make predictions for whole dataset
-DbLT_predict_model <- function(node, dataset, type = "probability") {
-  # Initialize an empty list to store prediction probabilities
-  prediction_probs <- list()
-  binary_prediction <- vector("numeric", nrow(dataset)) # Initialize a numeric vector for binary predictions
+  # Create Initial child nodes
+  left_node_init <- tree$AddChild(paste(paste("n =", results$Data_child_nodes["left_set"]),
+                                        results$Left_child_node$Node_detail,
+                                        round(as.numeric(results$Left_child_node$p_value), 6),
+                                        paste(paste("y = 0:", results$response_distri[["left_0"]]), "|", paste("y = 1:", results$response_distri[["left_1"]])),
+                                        sep = "\n"))
+  right_node_init <- tree$AddChild(paste(paste("n =",
+                                         results$Data_child_nodes["right_set"]),
+                                         results$Right_child_node$Node_detail,
+                                         round(as.numeric(results$Right_child_node$p_value), 6),
+                                         paste(paste("y = 0:", results$response_distri[["right_0"]]), "|", paste("y = 1:", results$response_distri[["right_1"]])),
+                                         sep = "\n"))
 
-  # Iterate over each row of the dataframe
-  for (i in 1:nrow(dataset)) {
-    data_point <- dataset[i, ]
-    prob <- DbLT_predict_model_func(node, data_point)
-    prediction_probs[[i]] <- prob
-  }
-  prediction_probs <- do.call(rbind, prediction_probs)
-  colnames(prediction_probs) <- c("class_0", "class_1")
+  # Add left child node and its children
+  add_child_nodes(left_node_init, results$Left_child_node)
 
-  # Determine the type of outputs
-  if (type == "class") {
-    for (i in 1:nrow(prediction_probs)) {
-      if (prediction_probs[i, "class_0"] > prediction_probs[i, "class_1"]) {
-        binary_prediction[i] <- 0
-      } else {
-        binary_prediction[i] <- 1
-      }
-    }
-    return(binary_prediction)
-  } else {
-    return(prediction_probs)
-  }
+  # Add right child node and its children
+  add_child_nodes(right_node_init, results$Right_child_node)
+
+  return(tree)
 }
 
-
-################################################################################
-# The following are new helpers functions
-# Function: calculate the linear predictor
-# Function to calculate the linear predictor
-calculate_linear_predictor <- function(data, model_coefficients) {
-  # Initialize the linear predictor with the intercept
-  linear_predictor <- rep(model_coefficients[["(Intercept)"]], nrow(data))
-  # Add the contribution of each variable
-  for (var_name in names(data)) {
-    if (var_name %in% names(model_coefficients)) {
-      # For numeric variables, simply multiply the term by the variable's value
-      term <- model_coefficients[[var_name]]
-      linear_predictor <- linear_predictor + term * data[[var_name]]
-    } else if (is.factor(data[[var_name]])) {
-      # For categorical variables, find matching coefficients for each level
-      level_coefs <- grep(paste0("^", var_name, "\\d+$"), names(model_coefficients), value = TRUE)
-      for (coef_name in level_coefs) {
-        term <- model_coefficients[[coef_name]]
-        level <- as.numeric(gsub(var_name, "", coef_name))
-        # Add the term multiplied by an indicator (0 or 1) for the corresponding level
-        linear_predictor <- linear_predictor + term * (as.numeric(as.character(data[[var_name]])) == level)
-      }
-    }
+# Function to summarize custom model output with node numbering and improved formatting
+DbLT_summary <- function(node, depth = 0, node_number = 1) {
+  # Add title at the beginning of the summary for the root node only
+  if (depth == 0) {
+    title <- "Deviance-based Logistic Tree Model Summary"
+    cat(title, "\n\n")  # Print the title left-aligned and add extra line for spacing
   }
-  return(linear_predictor)
-}
 
-
-# Function: Calculate the predicted probabilities using the linear predictor
-# Function to calculate the linear predictor
-calculate_predicted_probability <- function(data, model_coefficients) {
-  # Initialize the linear predictor with the intercept
-  linear_predictor <- rep(model_coefficients[["(Intercept)"]], nrow(data))
-  # Add the contribution of each variable
-  for (var_name in names(data)) {
-    if (var_name %in% names(model_coefficients)) {
-      # For numeric variables, simply multiply the term by the variable's value
-      term <- model_coefficients[[var_name]]
-      linear_predictor <- linear_predictor + term * data[[var_name]]
-    } else if (is.factor(data[[var_name]])) {
-      # For categorical variables, find matching coefficients for each level
-      level_coefs <- grep(paste0("^", var_name, "\\d+$"), names(model_coefficients), value = TRUE)
-      for (coef_name in level_coefs) {
-        term <- model_coefficients[[coef_name]]
-        level <- as.numeric(gsub(var_name, "", coef_name))
-        # Add the term multiplied by an indicator (0 or 1) for the corresponding level
-        linear_predictor <- linear_predictor + term * (as.numeric(as.character(data[[var_name]])) == level)
-      }
-    }
+  # Check if node is NULL
+  if (is.null(node)) {
+    return(NULL)
   }
-  # Apply the logistic function to get predicted probabilities
-  predicted_probability <- 1 / (1 + exp(-linear_predictor))
-  return(predicted_probability)
+
+  # Define indentation based on the depth
+  indent <- paste(rep("  ", depth), collapse = "")
+
+  # Print the current node's details with numbering
+  cat(indent, "Node ", node_number, "\n", sep = "")
+  cat(indent, "  Split Variable/Point: ", node$Node_detail, "\n", sep = "")
+  cat(indent, "  P-value: ", round(node$p_value, 6), "\n", sep = "")
+  cat(indent, "  AIC (Parent_node/Sum_of_Child_nodes): ", round(node$parent_aic, 4), "/", round(node$child_aic, 4), "\n", sep = "")
+  cat(indent, "  BIC (Parent_node/Sum_of_Child_nodes): ", round(node$parent_bic, 4), "/", round(node$child_bic, 4), "\n", sep = "")
+  cat(indent, "  EPV: ", node$EPV_node, "\n\n", sep = "")
+
+  # Prepare numbers for children
+  left_child_number <- node_number * 2
+  right_child_number <- node_number * 2 + 1
+
+  # Recursively call the function for left and right child nodes
+  if (!is.null(node$Left_child_node)) {
+    DbLT_summary(node$Left_child_node, depth + 1, left_child_number)
+  }
+
+  if (!is.null(node$Right_child_node)) {
+    DbLT_summary(node$Right_child_node, depth + 1, right_child_number)
+  }
+
+  # Provide separation for readability if it is the root
+  if (depth == 0) {
+    cat("\n")
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
