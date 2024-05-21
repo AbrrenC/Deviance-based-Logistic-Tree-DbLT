@@ -15,6 +15,7 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Model Code:** The core DbLT model code, the pruning and prediction code. (R programming language)
 - **Simulation Study:** Scripts to generate simulated datasets.
 - **Example outputs:** Example ouptus show the tree plot and tree model summary of DbLT.
+- **Application Dataset:** Pima Diabete Dataset and OASIS-3 Dementia Dataset.
 
 Whether you're dealing with medical research data or exploring predictive analytics in other domains, the DbLT Model offers a fresh perspective with its fine balance of simplicity and sophistication. Dive into the repository to explore the code, understand the methodology, and start applying the DbLT model to your datasets!
 
