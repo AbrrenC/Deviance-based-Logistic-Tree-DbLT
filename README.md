@@ -27,12 +27,13 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Application:**
   - Application Table 1: Model Predictive Performance Evaluation for Dementia Dataset
   - Application Table 2: Variable Selection Frequency Analysis for Dementia Dataset
-- **Example Outputs:** Example ouptus show the tree plot and tree model summary of DbLT.
-  - DbLT Tree Plot
+- **Example Outputs:** Example outputs show the tree plot and tree model summary of DbLT.
+
+DbLT Tree Plot
 
 <img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/4e9bc501-1de9-49ea-8411-9a07c2862b5b">
 
-  - DbLT Tree Model Summary
+DbLT Tree Model Summary
 
 <img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/6654ae11-9f0a-4367-973c-42507cd0af11">
 
