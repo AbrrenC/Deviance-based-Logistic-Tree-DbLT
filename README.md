@@ -16,7 +16,7 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Simulation Scripts:** Scripts to generate simulated datasets.
 - **Simulation Outputs:** All the simulation tables and figures.
 - **Example Outputs:** Example ouptus show the tree plot and tree model summary of DbLT.
-- **Application Outputs:** All the application outputs on our application dataset.
+- **Application:** All the application outputs on our application dataset.
 
 **DbLT Tree Plot**
 
