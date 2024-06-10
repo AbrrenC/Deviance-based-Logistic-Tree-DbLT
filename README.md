@@ -13,6 +13,9 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
   - Main code for DbLT model
   - Code for DbLT pruning function
   - Code for DbLT prediction function
+  - Code for zero/root node analysis (DbLT_0), there are two sub-functions: 
+    - Fit Logistic Regression for entire dataset
+    - Fit Simple Logistic Regression for each variable
 - **Simulation: Script**
   - The script is used generate three datasets for three simulation studies
 - **Simulation: Results**
@@ -33,3 +36,10 @@ DbLT Tree Plot
 DbLT Tree Model Summary
 
 <img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/6654ae11-9f0a-4367-973c-42507cd0af11">
+
+Zero Node Analysis Function 1: Fit Logistic regression for the entire dataset
+
+
+
+Zero Node Analysis Function 2: Fit Simple Logistic regression for each variables
+
