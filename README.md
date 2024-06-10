@@ -39,7 +39,11 @@ DbLT Tree Model Summary
 
 Zero Node Analysis Function 1: Fit Logistic regression for the entire dataset
 
-
+<img width="452" alt="DbLT_0 Function 1" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/277eca6a-6046-4a32-867f-82b7957dc015">
 
 Zero Node Analysis Function 2: Fit Simple Logistic regression for each variables
+
+<img width="452" alt="DbLT_0 Function 2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/f417d751-b888-446b-a045-9c6bbd2dbdd0">
+
+
 
