@@ -21,29 +21,46 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Simulation: Results**
   - Simulation Study 1 - Table 1: Predictive Performance Comparison of Raw and pruned DbLT models with EPV (10 & 25), AIC and BIC
   - Simulation Study 1 - Table 2: Predictive Performance Comparison between Pruned DbLT, Pruned MOB, Pruned CART, Pruned LMT, and GLM-Logistic
-  - Simulation Study 2 - Figure 1: Accuracy and AUC Comparison of Pruned DbLT with EPV = 10 + BIC, Pruned MOB with AIC, Pruned CART, GLM-Logistic and Pruned LMT across Variable Correlation Levels
-  - Simulation Study 3 - Table 1: Comparison of Variable Selection Metrics across Pruned Logistic Tree and GLM-Logistic Models
-  - Simulation Study 3 - Table 2: Variable Selection Frequency Analysis for Pruned Logistic Tree and GLM-Logistic Models
+  - Simulation Study 1 - DbLT Tree Plot
+  
+  <img width="452" alt="DbLT_Sim_1" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/6c6ddb48-7b55-4d0b-909d-6747b5b2b7f6">
+
+  - Simulation Study 2 - Table 1: Comparison of Variable Selection Metrics across Pruned Logistic Tree and GLM-Logistic Models
+  - Simulation Study 2 - Table 2: Variable Selection Frequency Analysis for Pruned Logistic Tree and GLM-Logistic Models
+  - Simulation Study 2 - DbLT Tree Plot
+
+  <img width="452" alt="DbLT_Sim_2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/b344dc32-ba7f-4158-b7a4-c7d02448e508">
+
 - **Application:**
-  - Application Table 1: Model Predictive Performance Evaluation for Dementia Dataset
-  - Application Table 2: Variable Selection Frequency Analysis for Dementia Dataset
+  - Application with variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
+  - Application with variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
+  - Application with variable mmse - DbLT Tree Plot
+ 
+  <img width="452" alt="DbLT_OASIS3_withmmse" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/2170db25-b663-4c12-b0ac-aecb534d9f99">
+
+  - Application without variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
+  - Application without variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
+  - Application without variable mmse - DbLT Tree Plot
+
+  <img width="452" alt="DbLT_OASIS3_withoutmmse" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/fe1a3716-2de9-4034-b5e6-a7b024ab1690">
+
 - **Example:** Example outputs show the tree plot and tree model summary of DbLT.
 
 DbLT Tree Plot
 
-<img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/4e9bc501-1de9-49ea-8411-9a07c2862b5b">
+<img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/0daae52d-d6fa-483a-9131-0f6b3ed60810">
 
 DbLT Tree Model Summary
 
-<img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/6654ae11-9f0a-4367-973c-42507cd0af11">
+<img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/28b2b73e-23bb-4c0c-a120-0730a9105553">
 
 Zero Node Analysis Function 1: Fit Logistic Regression for the entire dataset
 
-<img width="452" alt="DbLT_0 Function 1" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/277eca6a-6046-4a32-867f-82b7957dc015">
+<img width="452" alt="DbLT_0 Function 1" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/396784a5-b36a-4377-9f79-9b32d0e54065">
 
 Zero Node Analysis Function 2: Fit Simple Logistic Regression for each variable
 
-<img width="452" alt="DbLT_0 Function 2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/f417d751-b888-446b-a045-9c6bbd2dbdd0">
+<img width="452" alt="DbLT_0 Function 2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/3d480a86-972d-414f-a6d0-7b20c72024d5">
 
 
 
