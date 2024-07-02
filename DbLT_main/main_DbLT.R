@@ -427,7 +427,16 @@ DbLTree_model <- function(data, response_var, min_sample = NULL, threshold, max_
   # extract the p-value for the split variable
   summary_parent_glm = summary(parent_glm)
   split_var = subsets$split_var
-  split_var_p_value = summary_parent_glm$coefficients[split_var, "Pr(>|z|)"]
+  split_value = subsets$split_value
+
+  # search the corresponding p-value for the split variable
+  split_var_p_value <- tryCatch({
+    if (is.factor(data[[split_var]])) {
+      summary_parent_glm$coefficients[paste0(split_var, split_value), "Pr(>|z|)"]
+    } else {
+      summary_parent_glm$coefficients[split_var, "Pr(>|z|)"]
+    }
+  }, error = function(e) "NA")
 
   # construct split description
   split_desc <- if (is.factor(data[[subsets$split_var]])) {
@@ -527,7 +536,7 @@ create_tree_structure <- function(results) {
   # Create the root node
   tree <- Node$new(paste(paste("n =", sum(results$Data_child_nodes)),
                          results$Node_detail,
-                         round(as.numeric(results$p_value), 6),
+                         paste("P-value:", round(as.numeric(results$p_value), 6)),
                          sep = "\n"))
 
   # Create Initial child nodes
