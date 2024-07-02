@@ -45,20 +45,19 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
   <img width="452" alt="DbLT_OASIS3_withoutmmse" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/fe1a3716-2de9-4034-b5e6-a7b024ab1690">
 
 - **Example:** Example outputs show the tree plot and tree model summary of DbLT.
-
-DbLT Tree Plot
+  - DbLT Tree Plot
 
 <img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/0daae52d-d6fa-483a-9131-0f6b3ed60810">
 
-DbLT Tree Model Summary
+  - DbLT Tree Model Summary
 
 <img width="452" alt="DbLT_summary_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/28b2b73e-23bb-4c0c-a120-0730a9105553">
 
-Zero Node Analysis Function 1: Fit Logistic Regression for the entire dataset
+  - Zero Node Analysis Function 1: Fit Logistic Regression for the entire dataset
 
 <img width="452" alt="DbLT_0 Function 1" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/396784a5-b36a-4377-9f79-9b32d0e54065">
 
-Zero Node Analysis Function 2: Fit Simple Logistic Regression for each variable
+  - Zero Node Analysis Function 2: Fit Simple Logistic Regression for each variable
 
 <img width="452" alt="DbLT_0 Function 2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/3d480a86-972d-414f-a6d0-7b20c72024d5">
 
