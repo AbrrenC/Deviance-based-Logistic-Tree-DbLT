@@ -580,7 +580,7 @@ DbLT_summary <- function(node, depth = 0, node_number = 1) {
   # Print the current node's details with numbering
   cat(indent, "Node ", node_number, "\n", sep = "")
   cat(indent, "  Split Variable/Point: ", node$Node_detail, "\n", sep = "")
-  cat(indent, "  P-value: ", round(node$p_value, 6), "\n", sep = "")
+  cat(indent, "  P-value: ", ifelse(node$p_value == "NA", "NA", round(as.numeric(node$p_value), 6)), "\n", sep = "")
   cat(indent, "  AIC (Parent_node/Sum_of_Child_nodes): ", round(node$parent_aic, 4), "/", round(node$child_aic, 4), "\n", sep = "")
   cat(indent, "  BIC (Parent_node/Sum_of_Child_nodes): ", round(node$parent_bic, 4), "/", round(node$child_bic, 4), "\n", sep = "")
   cat(indent, "  EPV: ", node$EPV_node, "\n\n", sep = "")
