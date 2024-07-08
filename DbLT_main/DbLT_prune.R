@@ -8,8 +8,8 @@ prune_tree_aic_bic <- function(node, type = "AIC", is_root = TRUE) {
     return(node)
   }
   # Recursively prune the left and right child nodes
-  node$Left_child_node <- prune_tree_bottom_top(node$Left_child_node, type, is_root = FALSE)
-  node$Right_child_node <- prune_tree_bottom_top(node$Right_child_node, type, is_root = FALSE)
+  node$Left_child_node <- prune_tree_aic_bic(node$Left_child_node, type, is_root = FALSE)
+  node$Right_child_node <- prune_tree_aic_bic(node$Right_child_node, type, is_root = FALSE)
   # Determine which metric to use for comparison
   parent_metric <- if (type == "AIC") node$parent_aic else node$parent_bic
   child_metric <- if (type == "AIC") node$child_aic else node$child_bic
