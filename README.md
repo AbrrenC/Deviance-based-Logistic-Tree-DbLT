@@ -9,16 +9,16 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 - **Simulation Study:** Demonstrates predictive performance through extensive tests on both simulated data and actual medical datasets.
 
 ## This Repository Includes:
-- **DbLT_main:**
+### DbLT_main:
   - Main code for DbLT model
   - Code for DbLT pruning function
   - Code for DbLT prediction function
   - Code for zero/root node analysis (DbLT_0), there are two sub-functions: 
     - Zero Node Analysis Function 1: Fit Logistic Regression for entire dataset
     - Zero Node Analysis Function 2: Fit Simple Logistic Regression for each variable
-- **Simulation: Script**
+### **Simulation: Script**
   - The script is used generate three datasets for three simulation studies
-- **Simulation: Results**
+### **Simulation: Results**
   - Simulation Study 1 - Table 1: Predictive Performance Comparison of Raw and pruned DbLT models with EPV (10 & 25), AIC and BIC
   - Simulation Study 1 - Table 2: Predictive Performance Comparison between Pruned DbLT, Pruned MOB, Pruned CART, Pruned LMT, and GLM-Logistic
   - Simulation Study 1 - DbLT Tree Plot
@@ -31,24 +31,25 @@ Welcome to the official repository for the **Deviance-based Logistic Tree (DbLT)
 
   <img width="452" alt="DbLT_Sim_2" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/b344dc32-ba7f-4158-b7a4-c7d02448e508">
 
-- **Application:**
+### **Applications:**
 1. **Pima Indians Diabetes Data**
-    - DbLT Tree Plot
+  - DbLT Tree Plot
+  <img width="452" alt="Pima" src="https://github.com/user-attachments/assets/6e8ecbe7-4bc9-40b2-81f6-a46eb70b2354">
 
 2. **OASIS-3**
-    - Application with variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
-    - Application with variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
-    - Application with variable mmse - DbLT Tree Plot
+  - Application with variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
+  - Application with variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
+  - Application with variable mmse - DbLT Tree Plot
  
   <img width="452" alt="DbLT_OASIS3_withmmse" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/2170db25-b663-4c12-b0ac-aecb534d9f99">
 
-    - Application without variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
-    - Application without variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
-    - Application without variable mmse - DbLT Tree Plot
+  - Application without variable mmse - Table 1: Model Predictive Performance Evaluation for Dementia Dataset
+  - Application without variable mmse - Table 2: Variable Selection Frequency Analysis for Dementia Dataset
+  - Application without variable mmse - DbLT Tree Plot
 
   <img width="452" alt="DbLT_OASIS3_withoutmmse" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/fe1a3716-2de9-4034-b5e6-a7b024ab1690">
 
-- **Example:** Example outputs show the tree plot and tree model summary of DbLT.
+### **Example:** Example outputs show the tree plot and tree model summary of DbLT.
   - DbLT Tree Plot
 
   <img width="452" alt="DbLT_plot_output" src="https://github.com/AbrrenC/Deviance-based-Logistic-Tree-DbLT/assets/54808990/0daae52d-d6fa-483a-9131-0f6b3ed60810">
